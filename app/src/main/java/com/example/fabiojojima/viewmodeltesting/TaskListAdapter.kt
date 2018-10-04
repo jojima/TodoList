@@ -1,7 +1,9 @@
 package com.example.fabiojojima.viewmodeltesting
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.DialogInterface
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import java.nio.file.Files.size
@@ -11,6 +13,7 @@ import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.example.fabiojojima.viewmodeltesting.R.drawable.*
 import java.util.*
 import java.util.Collections.swap
@@ -24,9 +27,10 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
     private var mTasks: List<Task>? = null // Cached copy of words
     private var itemPos = RecyclerView.NO_POSITION
     private var mTaskViewModel : TaskViewModel = viewModel
+    private var con: Context = context
 
-    interface RecyclerViewClickListener {
-        fun onLongClick(view: TaskViewModel, position: Int)
+    interface OnItemLongClickListener {
+        fun onItemLongClicked(position: Int): Boolean
     }
 
 
@@ -34,7 +38,7 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
         val taskTextView : TextView = itemView.findViewById(R.id.taskName)
         val taskDescTextView : TextView = itemView.findViewById(R.id.taskDescription)
         val taskStatus : ImageView = itemView.findViewById(R.id.taskStatus)
-        val view: View = itemView
+        val v : View = itemView
     }
 
     init {
@@ -62,6 +66,24 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
                 }
                 current.done = !current.done
             }
+            holder.v.setOnLongClickListener{
+                val myTask = this.getTaskAtPosition(position)
+                val dialogBuilder = AlertDialog.Builder(con)
+                dialogBuilder.setMessage("Do you want to delete " + myTask.name + " ?")
+                        // if the dialog is cancelable
+                        .setCancelable(true)
+                        // positive button text and action
+                        .setPositiveButton("Proceed") { _, _ -> mTaskViewModel.deleteTask(myTask)
+                        }
+                        // negative button text and action
+                        .setNegativeButton("Cancel") { _, _ -> //finish()
+                        }
+                val alert = dialogBuilder.create()
+                alert.setTitle("Delete Task")
+                alert.show()
+                return@setOnLongClickListener true
+            }
+
             //holder.view.setOnLongClickListener()
         } else {
             // Covers the case of data not being ready yet.

@@ -47,25 +47,6 @@ class MainActivity : AppCompatActivity() {
                 adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
                 return true
             }
-
-            fun onLongClickListener(recyclerView: RecyclerView, viewHolder: ViewHolder, position: Int) {
-                val myTask = adapter.getTaskAtPosition(position)
-                val dialogBuilder = AlertDialog.Builder(this@MainActivity)
-                dialogBuilder.setMessage("Do you want to delete " + myTask.name + " ?")
-                        // if the dialog is cancelable
-                        .setCancelable(true)
-                        // positive button text and action
-                        .setPositiveButton("Proceed", DialogInterface.OnClickListener {
-                            dialog, id -> finish()
-                        })
-                        // negative button text and action
-                        .setNegativeButton("Cancel", DialogInterface.OnClickListener {
-                            dialog, id -> viewModel.deleteTask(myTask)
-                        })
-                val alert = dialogBuilder.create()
-                alert.setTitle("Delete Task")
-                alert.show()
-            }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val myTask = adapter.getTaskAtPosition(position)

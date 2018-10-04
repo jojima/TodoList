@@ -28,7 +28,7 @@ class CreateTask: AppCompatActivity() {
 
         bttn.setOnClickListener { _ ->
             val replyIntent = Intent()
-            if (TextUtils.isEmpty(mEditTaskNameView!!.text) || TextUtils.isEmpty(mEditTaskDescView!!.text)) {
+            if (TextUtils.isEmpty(mEditTaskNameView!!.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
                 replyIntent.putExtra(EXTRA_REPLY, mEditTaskNameView!!.text.toString())
