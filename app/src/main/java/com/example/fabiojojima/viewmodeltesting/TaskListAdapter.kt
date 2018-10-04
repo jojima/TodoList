@@ -1,22 +1,15 @@
 package com.example.fabiojojima.viewmodeltesting
 
 import android.app.AlertDialog
-import android.app.Application
 import android.content.Context
-import android.content.DialogInterface
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
-import java.nio.file.Files.size
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.example.fabiojojima.viewmodeltesting.R.drawable.*
 import java.util.*
-import java.util.Collections.swap
 
 
 
@@ -28,11 +21,6 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
     private var itemPos = RecyclerView.NO_POSITION
     private var mTaskViewModel : TaskViewModel = viewModel
     private var con: Context = context
-
-    interface OnItemLongClickListener {
-        fun onItemLongClicked(position: Int): Boolean
-    }
-
 
     inner class TaskViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         val taskTextView : TextView = itemView.findViewById(R.id.taskName)
@@ -55,16 +43,12 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
             val current = mTasks!![position]
             holder.taskTextView.text = current.name
             holder.taskDescTextView.text = current.description
+            setTaskResImage(current.done, holder)
             holder.taskStatus.setOnClickListener {
                 itemPos = RecyclerView.NO_POSITION
-                //mTaskViewModel.deleteTask(current)
-                if(current.done){
-                    holder.taskStatus.setImageResource(not_done)
-                }
-                else{
-                    holder.taskStatus.setImageResource(newok)
-                }
                 current.done = !current.done
+                setTaskResImage(current.done, holder)
+                mTaskViewModel.update(current)
             }
             holder.v.setOnLongClickListener{
                 val myTask = this.getTaskAtPosition(position)
@@ -83,12 +67,9 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
                 alert.show()
                 return@setOnLongClickListener true
             }
-
-            //holder.view.setOnLongClickListener()
         } else {
             // Covers the case of data not being ready yet.
             holder.taskTextView.text = "No Task"
-            /*holder.taskCheckBox.isChecked = false*/
         }
     }
 
@@ -121,5 +102,14 @@ class TaskListAdapter (context: Context, viewModel: TaskViewModel) : RecyclerVie
         }
         notifyItemMoved(fromPosition, toPosition)
         return true
+    }
+
+    fun setTaskResImage(status: Boolean, holder: TaskViewHolder){
+        if(!status){
+            holder.taskStatus.setImageResource(not_done)
+        }
+        else{
+            holder.taskStatus.setImageResource(newok)
+        }
     }
 }

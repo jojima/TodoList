@@ -3,10 +3,8 @@ package com.example.fabiojojima.viewmodeltesting
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 
@@ -39,24 +37,4 @@ class CreateTask: AppCompatActivity() {
         }
 
     }
-
-/*    fun createTask(view: View) {
-        val editText = findViewById<EditText>(R.id.ALT)//need to modify
-        val message = editText.text.toString()
-*//*        val intent = Intent(this, DisplayMessageActivity::class.java).apply {
-            putExtra(EXTRA_MESSAGE, message)
-        }*//*
-
-        val replyIntent = Intent()
-        if (TextUtils.isEmpty(mEditTaskNameView!!.editText!!.text.toString())) {
-            setResult(Activity.RESULT_CANCELED, replyIntent)
-        } else {
-            val task = Task(mEditTaskNameView!!.editText!!.text.toString(),mEditTaskDescView!!.editText!!.text.toString(), false)
-            replyIntent.putExtra(EXTRA_REPLY, mEditTaskDescView!!.editText!!.text.toString())
-            replyIntent.putExtra(EXTRA_REPLY_DESC, mEditTaskNameView!!.editText!!.text.toString())
-            setResult(Activity.RESULT_OK, replyIntent)
-        }
-        finish()
-        //startActivity(intent)
-    }*/
 }

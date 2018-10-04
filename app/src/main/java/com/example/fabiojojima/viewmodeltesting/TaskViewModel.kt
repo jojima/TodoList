@@ -3,7 +3,6 @@ package com.example.fabiojojima.viewmodeltesting
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 
 class TaskViewModel(application: Application): AndroidViewModel(application){
     private val mRepository: TaskRepository = TaskRepository(application)
@@ -11,7 +10,6 @@ class TaskViewModel(application: Application): AndroidViewModel(application){
 
     fun getAllTasks(): LiveData<List<Task>> {
         return allTasks
-        //return mRepository.getAllTasksObjects()
     }
 
     fun insert(task: Task) {

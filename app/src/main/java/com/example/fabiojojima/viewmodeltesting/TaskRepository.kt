@@ -2,7 +2,6 @@ package com.example.fabiojojima.viewmodeltesting
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.os.AsyncTask
 
 class TaskRepository(application: Application) {
