@@ -3,6 +3,7 @@ package com.example.fabiojojima.viewmodeltesting
 import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.os.AsyncTask
+import org.jetbrains.anko.doAsync
 
 class TaskRepository(application: Application) {
     val db: TaskRoomDB? = TaskRoomDB.getDatabase(application)
@@ -14,16 +15,25 @@ class TaskRepository(application: Application) {
     }
 
     fun insert(task: Task){
-        InsertAsyncTask(dao).execute(task)
+        doAsync {
+            dao.insert(task)
+        }
+        //InsertAsyncTask(dao).execute(task)
     }
     fun delete(task: Task){
-        DeleteAsyncTask(dao).execute(task)
+        doAsync {
+            dao.deleteTask(task)
+        }
+//        DeleteAsyncTask(dao).execute(task)
     }
     fun update(task: Task){
-        UpdateAsyncTask(dao).execute(task)
+        doAsync {
+            dao.updateTask(task)
+        }
+//        UpdateAsyncTask(dao).execute(task)
     }
 
-    private class InsertAsyncTask(private val mAsyncTaskDao: Dao): AsyncTask<Task, Void, Void>(){
+    /*private class InsertAsyncTask(private val mAsyncTaskDao: Dao): AsyncTask<Task, Void, Void>(){
         override fun doInBackground(vararg params: Task): Void? {
             mAsyncTaskDao.insert(params[0])
             return null
@@ -52,7 +62,7 @@ class TaskRepository(application: Application) {
             mAsyncTaskDao.deleteTask(params[0])
             return null
         }
-    }
+    }*/
 
 
 }

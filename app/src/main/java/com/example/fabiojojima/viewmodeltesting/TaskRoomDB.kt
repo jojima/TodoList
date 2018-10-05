@@ -33,7 +33,7 @@ abstract class TaskRoomDB: RoomDatabase() {
                     }
                 }
             }
-            return instance
+            return instance!!
         }
     }
 }
